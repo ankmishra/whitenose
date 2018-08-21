@@ -8,6 +8,9 @@ ankit
      :alt: Built with Cookiecutter Django
 
 
+:License: MIT
+
+
 Settings
 --------
 

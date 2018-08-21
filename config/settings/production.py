@@ -79,12 +79,20 @@ AWS_S3_OBJECT_PARAMETERS = {
 
 # STATIC
 # ------------------------
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATICFILES_STORAGE = 'config.settings.production.StaticRootS3BotoStorage'
+STATIC_URL = f'https://s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/static/'
 
 # MEDIA
 # ------------------------------------------------------------------------------
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-MEDIA_URL = f'https://s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/'
+
+# region http://stackoverflow.com/questions/10390244/
+from storages.backends.s3boto3 import S3Boto3Storage  # noqa E402
+StaticRootS3BotoStorage = lambda: S3Boto3Storage(location='static')  # noqa
+MediaRootS3BotoStorage = lambda: S3Boto3Storage(location='media', file_overwrite=False)  # noqa
+# endregion
+DEFAULT_FILE_STORAGE = 'config.settings.production.MediaRootS3BotoStorage'
+MEDIA_URL = f'https://s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/media/'
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
@@ -131,10 +139,11 @@ ANYMAIL = {
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += ['gunicorn']  # noqa F405
 
-# WhiteNoise
+# Collectfast
 # ------------------------------------------------------------------------------
-# http://whitenoise.evans.io/en/latest/django.html#enable-whitenoise
-MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware'] + MIDDLEWARE  # noqa F405
+# https://github.com/antonagestam/collectfast#installation
+INSTALLED_APPS = ['collectfast'] + INSTALLED_APPS  # noqa F405
+AWS_PRELOAD_METADATA = True
 
 
 # LOGGING

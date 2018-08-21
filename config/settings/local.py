@@ -6,7 +6,7 @@ from .base import env
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = env('DJANGO_SECRET_KEY', default='JeuSf2va1IYQyPhTtdAkJ2lIe6kreYIAbnGoaewNYdqJUajddMR0SR8znv9gIWDb')
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='tlPNpEZQiOfRS7NrWbk4brRYAWqvKKvUQ68KDi3V5mpMppSmR2rd4u0hwi1L1Zke')
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
     "localhost",
